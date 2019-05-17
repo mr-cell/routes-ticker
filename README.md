@@ -6,6 +6,7 @@ Multiple services:
 - users-service
 - climbing-routes-service (countries, crags, faces, routes)
 - reviews-service (routes ticks, reviews, stars)
+- auth-service (OAuth2 server)
 
 Technologies:
 1. docker
