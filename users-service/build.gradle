@@ -6,7 +6,7 @@ plugins {
 }
 
 ext {
-    embbededMongoVersion = '2.2.0'
+    apacheCommonsLang3Version = '3.9'
 }
 
 group = 'mr.cell'
@@ -31,9 +31,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation "org.apache.commons:commons-lang3:${apacheCommonsLang3Version}"
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-    testCompile "de.flapdoodle.embed:de.flapdoodle.embed.mongo:${embbededMongoVersion}"
 }
