@@ -1,4 +1,4 @@
-package mr.cell.usersservice;
+package mr.cell.usersservice.routesticker;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

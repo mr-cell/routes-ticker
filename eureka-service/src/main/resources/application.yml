@@ -1,0 +1,19 @@
+server:
+  port: 8765
+
+spring:
+  application:
+    name: eureka-service
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+
+# logging
+logging:
+    level:
+      com:
+        netflix:
+          eureka: OFF
+          discovery: OFF

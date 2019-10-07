@@ -1,4 +1,4 @@
-package mr.cell.usersservice;
+package mr.cell.usersservice.routesticker;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

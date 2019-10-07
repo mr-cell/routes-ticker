@@ -32,5 +32,13 @@ services:
     restart: always
     depends_on:
       - mongo
+      - eureka-service
     ports:
       - 8080:8080
+  eureka-service:
+    build:
+      context: ./eureka-service
+    image: routes-ticker/eureka-service
+    restart: always
+    ports:
+      - 8765:8765
