@@ -15,7 +15,7 @@ services:
     ports:
       - 27017-27019:27017-27019
     #command: mongod --smallfiles --logpath=/dev/null # --quiet
-  mongo-express:
+  mongoexpress:
     image: mongo-express
     restart: always
     depends_on:
@@ -25,20 +25,30 @@ services:
     # environment:
     #   ME_CONFIG_MONGODB_ADMINUSERNAME: admin
     #   ME_CONFIG_MONGODB_ADMINPASSWORD: adminadmin
-  users-service:
+  configservice:
+    build:
+      context: ./config-service
+    image: routes-ticker/config-service
+    restart: always
+    ports:
+      - 8888:8888
+  usersservice:
     build:
       context: ./users-service
     image: routes-ticker/users-service
     restart: always
     depends_on:
       - mongo
-      - eureka-service
+      - registryservice
+      - configservice
     ports:
       - 8080:8080
-  eureka-service:
+  registryservice:
     build:
-      context: ./eureka-service
-    image: routes-ticker/eureka-service
+      context: ./registry-service
+    image: routes-ticker/registry-service
     restart: always
+    depends_on:
+      - configservice
     ports:
       - 8765:8765

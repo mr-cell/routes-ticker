@@ -1,9 +1,0 @@
-spring:
-  data:
-    mongodb:
-      uri: mongodb://mongo:27017/users
-
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://eureka-service:8765/eureka/

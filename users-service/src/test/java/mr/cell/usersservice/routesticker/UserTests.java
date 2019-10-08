@@ -15,13 +15,13 @@ public class UserTests {
     @Before
     public void setup() {
         id = UUID.randomUUID();
-        initialUser = new User(id, "username", "first", "last");
+        initialUser = new User(id, "username", "first", "last", false);
     }
 
     @Test
     public void testUpdateUsernameModified() {
         // given
-        final User modifiedUser = new User(null, "username_modified", null, null);
+        final UserDTO modifiedUser = new UserDTO(null, "username_modified", null, null, false);
 
         // when
         final User updatedUser = initialUser.update(modifiedUser);
@@ -36,7 +36,7 @@ public class UserTests {
     @Test
     public void testUpdateFirstNameModified() {
         // given
-        final User modifiedUser = new User(null, null, "first_modified", null);
+        final UserDTO modifiedUser = new UserDTO(null, null, "first_modified", null, false);
 
         // when
         final User updatedUser = initialUser.update(modifiedUser);
@@ -51,7 +51,7 @@ public class UserTests {
     @Test
     public void testUpdateLastNameModified() {
         // given
-        final User modifiedUser = new User(null, null, null, "last_modified");
+        final UserDTO modifiedUser = new UserDTO(null, null, null, "last_modified", false);
 
         // when
         final User updatedUser = initialUser.update(modifiedUser);
@@ -61,5 +61,19 @@ public class UserTests {
         assertEquals(initialUser.getUsername(), updatedUser.getUsername());
         assertEquals(initialUser.getFirstName(), updatedUser.getFirstName());
         assertEquals(modifiedUser.getLastName(), updatedUser.getLastName());
+    }
+
+    public void testUpdateIsAdminModified() {
+        // given
+        final UserDTO modifiedUser = new UserDTO(null, null, null, null, true);
+
+        // when
+        final User updatedUser = initialUser.update(modifiedUser);
+
+        // then
+        assertEquals(initialUser.getId(), updatedUser.getId());
+        assertEquals(initialUser.getUsername(), updatedUser.getUsername());
+        assertEquals(initialUser.getFirstName(), updatedUser.getFirstName());
+        assertEquals(initialUser.getLastName(), updatedUser.getLastName());
     }
 }

@@ -8,7 +8,7 @@ RUN gradle build --no-daemon --info
 
 FROM openjdk:8-jre-alpine
 WORKDIR /work/
-COPY --from=build /usr/src/app/build/libs/users-service-*.jar /work/app.jar
+COPY --from=build /usr/src/app/build/libs/registry-service-*.jar /work/app.jar
 RUN chmod 775 /work
-EXPOSE 8080
+EXPOSE 8765
 ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker", "app.jar"]

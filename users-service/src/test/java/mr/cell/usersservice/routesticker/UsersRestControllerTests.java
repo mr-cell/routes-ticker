@@ -37,7 +37,7 @@ public class UsersRestControllerTests {
 
     private User createUser(final String username, final String firstName, final String lastName) {
         final UUID id = UUID.randomUUID();
-        return new User(id, username, firstName, lastName);
+        return new User(id, username, firstName, lastName, false);
     }
 
     @Test
@@ -56,14 +56,15 @@ public class UsersRestControllerTests {
                 .andExpect(jsonPath("$..id", hasSize(usersMap.size())))
                 .andExpect(jsonPath("$..username", hasSize(usersMap.size())))
                 .andExpect(jsonPath("$..firstName", hasSize(usersMap.size())))
-                .andExpect(jsonPath("$..lastName", hasSize(usersMap.size())));
+                .andExpect(jsonPath("$..lastName", hasSize(usersMap.size())))
+                .andExpect(jsonPath("$..isAdmin", hasSize(usersMap.size())));
     }
 
     @Test
     public void testGetUserById() throws Exception {
         // given
         final UUID id = UUID.randomUUID();
-        final User user = new User(id, "user", "user_first", "user_last");
+        final User user = new User(id, "user", "user_first", "user_last", false);
         when(users.getUser(any())).thenReturn(user);
 
         // when
@@ -74,7 +75,8 @@ public class UsersRestControllerTests {
                 .andExpect(jsonPath("$.id", is(id.toString())))
                 .andExpect(jsonPath("$.username", is(user.getUsername())))
                 .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
-                .andExpect(jsonPath("$.lastName", is(user.getLastName())));
+                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
+                .andExpect(jsonPath("$.isAdmin", is(user.isAdmin())));
     }
 
     @Test
@@ -107,8 +109,8 @@ public class UsersRestControllerTests {
     public void testSaveUser() throws Exception {
         // given
         when(users.saveUser(any())).then(invocation -> {
-            final User user = invocation.getArgument(0);
-            final User newUser = new User(UUID.randomUUID(), null, null, null);
+            final UserDTO user = invocation.getArgument(0);
+            final User newUser = new User(UUID.randomUUID(), null, null, null, false);
             return newUser.update(user);
         });
         final String userPayloadInJson = "{\"username\": \"user\", \"firstName\": \"user_first\", " +
@@ -126,7 +128,8 @@ public class UsersRestControllerTests {
                 .andExpect(jsonPath("$.id", is(notNullValue())))
                 .andExpect(jsonPath("$.username", is("user")))
                 .andExpect(jsonPath("$.firstName", is("user_first")))
-                .andExpect(jsonPath("$.lastName", is("user_last")));
+                .andExpect(jsonPath("$.lastName", is("user_last")))
+                .andExpect(jsonPath("$.isAdmin", is(false)));
 
     }
 
@@ -134,9 +137,9 @@ public class UsersRestControllerTests {
     public void testUpdateUser() throws Exception {
         // given
         final UUID id = UUID.randomUUID();
-        final User user = new User(id, "user", "user_first", "user_last");
+        final User user = new User(id, "user", "user_first", "user_last", false);
         when(users.updateUser(any(), any())).then(invocation -> {
-            final User modifiedUser = invocation.getArgument(1);
+            final UserDTO modifiedUser = invocation.getArgument(1);
             return user.update(modifiedUser);
         });
         final String userPayloadInJson = "{\"username\": \"user_modified\"}";
@@ -153,7 +156,8 @@ public class UsersRestControllerTests {
                 .andExpect(jsonPath("$.id", is(id.toString())))
                 .andExpect(jsonPath("$.username", is("user_modified")))
                 .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
-                .andExpect(jsonPath("$.lastName", is(user.getLastName())));
+                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
+                .andExpect(jsonPath("$.isAdmin", is(user.isAdmin())));
     }
 
     @Test
@@ -179,7 +183,7 @@ public class UsersRestControllerTests {
     public void testDeleteUser() throws Exception {
         // given
         final UUID id = UUID.randomUUID();
-        final User user = new User(id, "user", "user_first", "user_last");
+        final User user = new User(id, "user", "user_first", "user_last", false);
         when(users.deleteUser(id)).thenReturn(user).thenThrow(new ResourceNotFoundException(id, User.class));
 
         // when
@@ -190,7 +194,8 @@ public class UsersRestControllerTests {
                 .andExpect(jsonPath("$.id", is(user.getId().toString())))
                 .andExpect(jsonPath("$.username", is(user.getUsername())))
                 .andExpect(jsonPath("$.firstName", is(user.getFirstName())))
-                .andExpect(jsonPath("$.lastName", is(user.getLastName())));
+                .andExpect(jsonPath("$.lastName", is(user.getLastName())))
+                .andExpect(jsonPath("$.isAdmin", is(user.isAdmin())));
 
         mockMvc.perform(delete("/users/" + id).accept(APPLICATION_JSON_UTF8))
                 .andExpect(status().isNotFound())

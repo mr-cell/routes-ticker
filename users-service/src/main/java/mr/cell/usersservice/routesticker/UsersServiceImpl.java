@@ -31,15 +31,15 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public User saveUser(final User user) {
+    public User saveUser(final UserDTO user) {
         final UUID id = UUID.randomUUID();
-        final User userToBeSaved = new User(id, null, null, null).update(user);
+        final User userToBeSaved = new User(id, null, null, null, false).update(user);
         users.save(userToBeSaved);
         return userToBeSaved;
     }
 
     @Override
-    public User updateUser(final UUID id, final User user) {
+    public User updateUser(final UUID id, final UserDTO user) {
         final User userToBeUpdated = users.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException(id, User.class));
         final User updatedUser = userToBeUpdated.update(user);

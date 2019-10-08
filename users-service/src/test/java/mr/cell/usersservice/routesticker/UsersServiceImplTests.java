@@ -33,7 +33,7 @@ public class UsersServiceImplTests {
     public void testGetUser() {
         // given
         final UUID id = UUID.randomUUID();
-        when(users.findById(any())).thenReturn(Optional.of(new User(id, "test", "test_first", "test_last")));
+        when(users.findById(any())).thenReturn(Optional.of(new User(id, "test", "test_first", "test_last", false)));
 
         // when
         final User user = usersService.getUser(id);
@@ -77,7 +77,7 @@ public class UsersServiceImplTests {
     @Test
     public void testSaveUser() {
         // given
-        final User userToBeSaved = new User(null, "test", "test", "test");
+        final UserDTO userToBeSaved = new UserDTO(null, "test", "test", "test", false);
         when(users.save(any())).then(invocation -> invocation.getArgument(0));
 
         // when
@@ -94,7 +94,7 @@ public class UsersServiceImplTests {
     public void testDeleteUser() {
         // given
         final UUID id = UUID.randomUUID();
-        when(users.findById(any())).thenReturn(Optional.of(new User(id, "test", "test", "test")));
+        when(users.findById(any())).thenReturn(Optional.of(new User(id, "test", "test", "test", false)));
 
         // when
         final User deletedUser = usersService.deleteUser(id);
@@ -127,13 +127,13 @@ public class UsersServiceImplTests {
     public void testUpdateUser() {
         // given
         final UUID id = UUID.randomUUID();
-        final User user = new User(id, "test", "test", "test");
+        final User user = new User(id, "test", "test", "test", false);
         when(users.findById(id)).thenReturn(Optional.of(user));
         when(users.save(any())).then(invocation -> invocation.getArgument(0));
 
         // when
         final User updatedUser = usersService.updateUser(id,
-                new User(null, "test_modified", "first_modified", "last_modified"));
+                new UserDTO(null, "test_modified", "first_modified", "last_modified", false));
 
         // then
         assertEquals(id, updatedUser.getId());
@@ -149,7 +149,7 @@ public class UsersServiceImplTests {
 
         // when
         try {
-            usersService.updateUser(id, new User(null, "test", "test", "test"));
+            usersService.updateUser(id, new UserDTO(null, "test", "test", "test", false));
         } catch (final ResourceNotFoundException ex) {
             // then
             assertEquals(id.toString(), ex.getResourceId());
@@ -169,6 +169,6 @@ public class UsersServiceImplTests {
         final String username = RandomStringUtils.randomAlphabetic(10);
         final String firstName = RandomStringUtils.randomAlphabetic(10);
         final String lastName = RandomStringUtils.randomAlphabetic(10);
-        return new User(id, username, firstName, lastName);
+        return new User(id, username, firstName, lastName, false);
     }
 }

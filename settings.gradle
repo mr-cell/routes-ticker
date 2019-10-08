@@ -1,4 +1,5 @@
 rootProject.name = 'routes-ticker'
 
-include 'eureka-service'
+include 'registry-service'
 include 'users-service'
+include 'config-service'
