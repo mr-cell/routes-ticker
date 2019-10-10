@@ -4,6 +4,9 @@ server:
 spring:
   application:
     name: climbingroutesservice
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/routes
 
 eureka:
   client:
@@ -14,3 +17,9 @@ management:
   endpoint:
     health:
       show-details: always
+
+# logging
+logging:
+  level:
+    com:
+      netflix: OFF

@@ -52,3 +52,14 @@ services:
       - configservice
     ports:
       - 8765:8765
+  climbingroutesservice:
+    build:
+      context: ./climbing-routes-service
+    image: routes-ticker/climbing-routes-service
+    restart: always
+    depends_on:
+      - configservice
+      - registryservice
+      - mongo
+    ports:
+      - 8181:8181

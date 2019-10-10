@@ -1,8 +1,8 @@
 FROM gradle:5.6.2-jdk8 AS build
 VOLUME /tmp
 COPY src /usr/src/app/src
-COPY build.gradle /usr/src/app/build.gradle
-COPY settings.gradle /usr/src/app/settings.gradle
+COPY build.gradle.kts /usr/src/app/build.gradle.kts
+COPY settings.gradle.kts /usr/src/app/settings.gradle.kts
 WORKDIR /usr/src/app/
 RUN gradle build --no-daemon --info
 
