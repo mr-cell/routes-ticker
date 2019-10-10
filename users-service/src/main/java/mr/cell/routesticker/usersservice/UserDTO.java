@@ -1,4 +1,4 @@
-package mr.cell.usersservice.routesticker;
+package mr.cell.routesticker.usersservice;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

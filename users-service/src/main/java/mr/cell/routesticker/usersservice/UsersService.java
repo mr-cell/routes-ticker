@@ -1,4 +1,4 @@
-package mr.cell.usersservice.routesticker;
+package mr.cell.routesticker.usersservice;
 
 import java.util.Collection;
 import java.util.UUID;

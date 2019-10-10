@@ -1,4 +1,4 @@
-package mr.cell.usersservice.routesticker;
+package mr.cell.routesticker.usersservice;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 

@@ -1,4 +1,4 @@
-package mr.cell.usersservice.routesticker;
+package mr.cell.routesticker.usersservice;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Before;
