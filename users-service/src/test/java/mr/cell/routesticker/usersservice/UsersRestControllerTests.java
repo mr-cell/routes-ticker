@@ -91,7 +91,7 @@ public class UsersRestControllerTests {
                 .andExpect(status().isNotFound())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.message", containsString(id.toString())))
-                .andExpect(jsonPath("$.timestamp", is(notNullValue())));
+                .andExpect(jsonPath("$.timestamp", isA(Long.class)));
     }
 
     @Test
@@ -102,7 +102,7 @@ public class UsersRestControllerTests {
                 // then
                 .andExpect(status().isBadRequest())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.timestamp", is(notNullValue())));
+                .andExpect(jsonPath("$.timestamp", isA(Long.class)));
     }
 
     @Test
@@ -176,7 +176,8 @@ public class UsersRestControllerTests {
                 // then
                 .andExpect(status().isNotFound())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
-                .andExpect(jsonPath("$.message", containsString(id.toString())));
+                .andExpect(jsonPath("$.message", containsString(id.toString())))
+                .andExpect(jsonPath("$.timestamp", isA(Long.class)));
     }
 
     @Test
@@ -201,6 +202,6 @@ public class UsersRestControllerTests {
                 .andExpect(status().isNotFound())
                 .andExpect(header().string(CONTENT_TYPE, APPLICATION_JSON_UTF8_VALUE))
                 .andExpect(jsonPath("$.message", containsString(id.toString())))
-                .andExpect(jsonPath("$.timestamp", is(notNullValue())));
+                .andExpect(jsonPath("$.timestamp", isA(Long.class)));
     }
 }

@@ -17,9 +17,6 @@ import java.util.Date;
 @ControllerAdvice
 public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 
-    // TODO rewrite to use new date api
-    private static final DateFormat SIMPLE_DATE_FORMAT = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss.SSSZ");
-
     @ExceptionHandler({ResourceNotFoundException.class})
     public ResponseEntity<Object> handleResourceNotFound(final ResourceNotFoundException ex,
                                                          final HttpServletRequest request,
@@ -27,7 +24,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
         final ErrorMessage errorMessage = new ErrorMessage(
                 "Resource not found. Resource name: '" + ex.getResourceClassSimpleName() +
                         "', resource id: '" + ex.getResourceId() + "'",
-                SIMPLE_DATE_FORMAT.format(new Date()));
+                System.currentTimeMillis());
         final HttpHeaders httpHeaders = createBaseHttpHeaders();
         return handleExceptionInternal(ex, errorMessage, httpHeaders, HttpStatus.NOT_FOUND, webRequest);
     }
@@ -36,7 +33,7 @@ public class RestResponseEntityExceptionHandler extends ResponseEntityExceptionH
     public ResponseEntity<Object> handleIllegalArgumentException(final IllegalArgumentException ex,
                                                                  final HttpServletRequest request,
                                                                  final WebRequest webRequest) {
-        final ErrorMessage errorMessage = new ErrorMessage("", SIMPLE_DATE_FORMAT.format(new Date()));
+        final ErrorMessage errorMessage = new ErrorMessage("", System.currentTimeMillis());
         final HttpHeaders httpHeaders = createBaseHttpHeaders();
         return handleExceptionInternal(ex, errorMessage, httpHeaders, HttpStatus.BAD_REQUEST, webRequest);
     }
