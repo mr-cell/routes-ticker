@@ -3,7 +3,7 @@ package mr.cell.routesticker.climbingroutesservice
 import com.fasterxml.jackson.annotation.JsonProperty
 
 enum class RouteGrade(val value: String) {
-    @JsonProperty("Unknown") UNKNOWN("Unknown"),
+    @JsonProperty("") UNKNOWN(""),
     @JsonProperty("2") GRADE_2("2"),
     @JsonProperty("3a") GRADE_3a("3a"),
     @JsonProperty("3b") GRADE_3b("3b"),

@@ -8,10 +8,10 @@ import java.util.*
 @Document
 @TypeAlias("route")
 data class Route(
-        @Id val routeId: UUID,
-        val routeName: String,
-        val routeType: RouteType,
-        val routeGrade: RouteGrade,
+        @Id val id: UUID,
+        val name: String,
+        val type: RouteType,
+        val grade: RouteGrade,
         val country: String,
         val region: String,
         val cragId: UUID,

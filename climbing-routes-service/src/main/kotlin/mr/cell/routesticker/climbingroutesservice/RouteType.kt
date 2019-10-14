@@ -6,5 +6,5 @@ enum class RouteType(val value: String) {
     @JsonProperty("Sport") SPORT("Sport"),
     @JsonProperty("Boulder") BOULDER("Boulder"),
     @JsonProperty("Mountain") MOUNTAIN("Mountain"),
-    @JsonProperty("Unknown") UNKNOWN("Unknown");
+    @JsonProperty("") UNKNOWN("");
 }

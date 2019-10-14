@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.server.ServerWebExchange
 
 @ControllerAdvice
-class RestResponseEntityExceptionHandler {
+class RestResponseEntityExceptionHandler { //TODO move the code into ExceptionWrapper
 
     @ExceptionHandler
     fun handleIllegalArgumentException(ex: IllegalArgumentException, exchange: ServerWebExchange):

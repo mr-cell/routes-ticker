@@ -33,42 +33,43 @@ class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
                 }.doOnNext { routes.save(it) }
     }
 
-    fun toRoute(route: RouteDTO): Route {
+    private fun toRoute(route: RouteDTO): Route {
         return Route(UUID.randomUUID(),
-                route.routeName ?: "Unknown",
-                route.routeType ?: RouteType.UNKNOWN,
-                route.routeGrade ?: RouteGrade.UNKNOWN,
-                route.country ?: "Unknown",
-                route.region ?: "Unknown",
+                route.name ?: "",
+                route.type ?: RouteType.UNKNOWN,
+                route.grade ?: RouteGrade.UNKNOWN,
+                route.country ?: "",
+                route.region ?: "",
                 route.cragId ?: throw IllegalArgumentException(NO_CRAG_ID),
-                route.cragName ?: "Unknown",
+                route.cragName ?: "",
                 route.sectorId ?: throw IllegalArgumentException(NO_SECTOR_ID),
-                route.sectorName ?: "Unknown")
+                route.sectorName ?: "")
     }
 
     override fun deleteRoute(id: UUID): Mono<Route> {
         return routes.findById(id)
                 .switchIfEmpty(Mono.error(ResourceNotFoundException(id, Route::class.java)))
-                .doOnNext { routes.delete(it) }
+                .doOnNext { route -> routes.delete(route) }
     }
 
     override fun updateRoute(id: UUID, route: RouteDTO): Mono<Route> {
         return routes.findById(id)
                 .switchIfEmpty(Mono.error(ResourceNotFoundException(id, Route::class.java)))
                 .zipWith(Mono.just(route))
-                .map { tuple ->
-                    val routeToBeUpdated = tuple.t1
-                    val route = tuple.t2
-                    Route(routeToBeUpdated.routeId,
-                            route.routeName ?: routeToBeUpdated.routeName,
-                            route.routeType ?: routeToBeUpdated.routeType,
-                            route.routeGrade ?: routeToBeUpdated.routeGrade,
-                            route.country ?: routeToBeUpdated.country,
-                            route.region ?: routeToBeUpdated.region,
-                            route.cragId ?: routeToBeUpdated.cragId,
-                            route.cragName ?: routeToBeUpdated.cragName,
-                            route.sectorId ?: routeToBeUpdated.sectorId,
-                            route.sectorName ?: routeToBeUpdated.sectorName)
-                }.doOnNext { route: Route -> routes.save(route) }
+                .map { tuple -> merge(tuple.t1, tuple.t2) }
+                .doOnNext { route -> routes.save(route) }
+    }
+
+    private fun merge(routeToBeUpdated: Route, route: RouteDTO): Route {
+        return Route(routeToBeUpdated.id,
+                route.name ?: routeToBeUpdated.name,
+                route.type ?: routeToBeUpdated.type,
+                route.grade ?: routeToBeUpdated.grade,
+                route.country ?: routeToBeUpdated.country,
+                route.region ?: routeToBeUpdated.region,
+                route.cragId ?: routeToBeUpdated.cragId,
+                route.cragName ?: routeToBeUpdated.cragName,
+                route.sectorId ?: routeToBeUpdated.sectorId,
+                route.sectorName ?: routeToBeUpdated.sectorName)
     }
 }

@@ -24,6 +24,7 @@ repositories {
 
 extra["springCloudVersion"] = "Greenwich.SR3"
 extra["springRetryVersion"] = "1.2.4.RELEASE"
+extra["mockitoKotlinVersion"] = "2.2.0"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
@@ -38,6 +39,7 @@ dependencies {
 	implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("com.nhaarman.mockitokotlin2:mockito-kotlin:${property("mockitoKotlinVersion")}")
 	testImplementation("io.projectreactor:reactor-test")
 }
 

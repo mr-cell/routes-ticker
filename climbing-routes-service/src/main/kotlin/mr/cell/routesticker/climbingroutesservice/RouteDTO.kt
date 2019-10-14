@@ -10,14 +10,14 @@ import java.util.*
 @JsonIgnoreProperties(ignoreUnknown = true)
 class RouteDTO() {
 
-    var routeId: UUID? = null
+    var id: UUID? = null
         @JsonProperty get() = field
         @JsonIgnore set(value) {
             field = value
         }
-    var routeName: String? = null
-    var routeType: RouteType? = null
-    var routeGrade: RouteGrade? = null
+    var name: String? = null
+    var type: RouteType? = null
+    var grade: RouteGrade? = null
     var country: String? = null
     var region: String? = null
     var cragId: UUID? = null
@@ -26,10 +26,10 @@ class RouteDTO() {
     var sectorName: String? = null
 
     constructor(route: Route) : this() {
-        this.routeId = route.routeId
-        this.routeName = route.routeName
-        this.routeType = route.routeType
-        this.routeGrade = route.routeGrade
+        this.id = route.id
+        this.name = route.name
+        this.type = route.type
+        this.grade = route.grade
         this.country = route.country
         this.region = route.region
         this.cragId = route.cragId

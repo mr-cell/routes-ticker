@@ -1,5 +1,6 @@
 package mr.cell.routesticker.climbingroutesservice
 
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -19,6 +20,7 @@ class RoutesRestController(val routes: RoutesService) {
         return routes.getRoute(id).map { RouteDTO(it) }
     }
 
+    @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     fun createRoute(@RequestBody route: RouteDTO): Mono<RouteDTO> {
         return routes.saveRoute(route).map { RouteDTO(it) }
