@@ -39,7 +39,6 @@ services:
     restart: always
     depends_on:
       - mongo
-      - registryservice
       - configservice
     ports:
       - 8080:8080
@@ -59,7 +58,15 @@ services:
     restart: always
     depends_on:
       - configservice
-      - registryservice
       - mongo
     ports:
       - 8181:8181
+  gatewayservice:
+    build:
+      context: ./gateway-service
+    image: routes-ticker/gateway-service
+    restart: always
+    depends_on:
+      - configservice
+    ports:
+      - 9999:9999
