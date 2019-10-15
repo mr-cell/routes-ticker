@@ -11,4 +11,4 @@ WORKDIR /work/
 COPY --from=build /usr/src/app/build/libs/gateway-service-*.jar /work/app.jar
 RUN chmod 775 /work
 EXPOSE 9999
-ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=native,docker", "app.jar"]
+ENTRYPOINT ["java", "-jar", "-Dspring.profiles.active=docker", "app.jar"]
