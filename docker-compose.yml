@@ -12,8 +12,8 @@ services:
       # - MONGO_INITDB_DATABASE=users
     #volumes:
     #  - ./data/db:/var/micro-data/mongodb/data/db
-    ports:
-      - 27017-27019:27017-27019
+#    ports:
+#      - 27017-27019:27017-27019
     #command: mongod --smallfiles --logpath=/dev/null # --quiet
   mongoexpress:
     image: mongo-express
@@ -40,8 +40,6 @@ services:
     depends_on:
       - mongo
       - configservice
-    ports:
-      - 8080:8080
   registryservice:
     build:
       context: ./registry-service
@@ -59,8 +57,6 @@ services:
     depends_on:
       - configservice
       - mongo
-    ports:
-      - 8181:8181
   gatewayservice:
     build:
       context: ./gateway-service
@@ -69,4 +65,4 @@ services:
     depends_on:
       - configservice
     ports:
-      - 9999:9999
+      - 8080:8080
