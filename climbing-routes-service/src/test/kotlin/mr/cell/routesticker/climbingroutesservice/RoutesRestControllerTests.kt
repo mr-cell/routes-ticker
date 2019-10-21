@@ -74,16 +74,7 @@ class RoutesRestControllerTests {
                 .expectStatus().isOk
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .expectBody()
-                .jsonPath("$.id").value(Matchers.`is`(route.id.toString()))
-                .jsonPath("$.name").value(Matchers.`is`(route.name))
-                .jsonPath("$.type").value(Matchers.`is`(route.type.value))
-                .jsonPath("$.grade").value(Matchers.`is`(route.grade.value))
-                .jsonPath("$.country").value(Matchers.`is`(route.country))
-                .jsonPath("$.region").value(Matchers.`is`(route.region))
-                .jsonPath("$.cragId").value(Matchers.`is`(route.cragId.toString()))
-                .jsonPath("$.cragName").value(Matchers.`is`(route.cragName))
-                .jsonPath("$.sectorId").value(Matchers.`is`(route.sectorId.toString()))
-                .jsonPath("$.sectorName").value(Matchers.`is`(route.sectorName))
+                .isRouteContentsMatching(route)
     }
 
     @Test
@@ -94,16 +85,16 @@ class RoutesRestControllerTests {
 
         // when
         webTestClient.get()
-                .uri("/routes/${id}")
+                .uri("/routes/$id")
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 // then
                 .expectStatus().isNotFound
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .expectBody()
-                .jsonPath("$.message").value(Matchers.containsString(id.toString()))
-                .jsonPath("$.timestamp").isNumber
-                .jsonPath("$.path").isEqualTo("/routes/${id}")
+                .isMessageContaining(id.toString())
+                .isProperTimestamp()
+                .isProperPath("/routes/$id")
     }
 
     @Test
@@ -118,8 +109,8 @@ class RoutesRestControllerTests {
                 .expectStatus().isBadRequest
                 .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
                 .expectBody()
-                .jsonPath("$.timestamp").isNumber
-                .jsonPath("$.path").isEqualTo("/routes/1")
+                .isProperTimestamp()
+                .isProperPath("/routes/1")
     }
 
     @Test
@@ -151,9 +142,9 @@ class RoutesRestControllerTests {
                 "grade": "4a",
                 "country": "Italy",
                 "region": "Cala Gonone",
-                "cragId": "${cragId.toString()}",
+                "cragId": "$cragId",
                 "cragName": "Millennium",
-                "sectorId": "${sectorId.toString()}",
+                "sectorId": "$sectorId",
                 "sectorName": "Millennium"
             }
         """.trimIndent()
@@ -182,53 +173,156 @@ class RoutesRestControllerTests {
 
     @Test
     fun testSaveRouteWithInvalidCragId() {
-        TODO("not implemented")
+        // given
+        val sectorId = UUID.randomUUID()
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "1",
+                "cragName": "Millennium",
+                "sectorId": "$sectorId",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        // then
+        webTestClient.post()
+                .uri("/routes")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperTimestamp()
+                .isProperPath("/routes")
     }
 
     @Test
     fun testSaveRouteWithInvalidSectorId() {
-        TODO("not implemented")
+        // given
+        val cragId = UUID.randomUUID()
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "$cragId",
+                "cragName": "Millennium",
+                "sectorId": "1",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        // then
+        webTestClient.post()
+                .uri("/routes")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperTimestamp()
+                .isProperPath("/routes")
     }
 
     @Test
     fun testDeleteRoute() {
-        TODO("not implemented")
+        // given
+        val id = UUID.randomUUID()
+        val route = createRoute(id, "test")
+        Mockito.`when`(routesService.deleteRoute(any()))
+                .thenReturn(Mono.just(route))
+                .thenThrow(ResourceNotFoundException(id, Route::class.java))
+
+        // when
+        webTestClient.delete()
+                .uri("/routes/$id")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                .expectStatus().isOk
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isRouteContentsMatching(route)
     }
 
     @Test
     fun testDeleteRouteWithNonexistentId() {
-        TODO("not implemented")
+        // given
+        val id = UUID.randomUUID()
+        Mockito.`when`(routesService.deleteRoute(any()))
+                .thenThrow(ResourceNotFoundException(id, Route::class.java))
+
+        // when
+        webTestClient.delete()
+                .uri("/routes/$id")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                // then
+                .expectStatus().isNotFound
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperTimestamp()
+                .isProperPath("/routes/$id")
     }
 
     @Test
     fun testDeleteRouteWithInvalidId() {
-        TODO("not implemented")
-    }
+        // given
 
-    @Test
-    fun testUpdateRoute() {
-        TODO("not implemented")
+        // when
+        webTestClient.delete()
+                .uri("/routes/1")
+                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperTimestamp()
+                .isProperPath("/routes/1")
     }
-
-    @Test
-    fun testUpdateRouteWithNonexistentId() {
-        TODO("not implemented")
-    }
-
-    @Test
-    fun testUpdateRouteWithInvalidId() {
-        TODO("not implemented")
-    }
-
-    @Test
-    fun testUpdateRouteWithInvalidCragId() {
-        TODO("not implemented")
-    }
-
-    @Test
-    fun testUpdateRouteWithInvalidSectorId() {
-        TODO("not implemented")
-    }
+//
+//    @Test
+//    fun testUpdateRoute() {
+//        TODO("not implemented")
+//    }
+//
+//    @Test
+//    fun testUpdateRouteWithNonexistentId() {
+//        TODO("not implemented")
+//    }
+//
+//    @Test
+//    fun testUpdateRouteWithInvalidId() {
+//        TODO("not implemented")
+//    }
+//
+//    @Test
+//    fun testUpdateRouteWithInvalidCragId() {
+//        TODO("not implemented")
+//    }
+//
+//    @Test
+//    fun testUpdateRouteWithInvalidSectorId() {
+//        TODO("not implemented")
+//    }
 
     private fun createRoute(routeName: String): Route {
         return createRoute(UUID.randomUUID(), routeName)
@@ -245,5 +339,31 @@ class RoutesRestControllerTests {
                 "Millennium",
                 UUID.randomUUID(),
                 "Millennium")
+    }
+
+    fun WebTestClient.BodyContentSpec.isRouteContentsMatching(route: Route): WebTestClient.BodyContentSpec {
+        return this
+                .jsonPath("$.id").value(Matchers.`is`(route.id.toString()))
+                .jsonPath("$.name").value(Matchers.`is`(route.name))
+                .jsonPath("$.type").value(Matchers.`is`(route.type.value))
+                .jsonPath("$.grade").value(Matchers.`is`(route.grade.value))
+                .jsonPath("$.country").value(Matchers.`is`(route.country))
+                .jsonPath("$.region").value(Matchers.`is`(route.region))
+                .jsonPath("$.cragId").value(Matchers.`is`(route.cragId.toString()))
+                .jsonPath("$.cragName").value(Matchers.`is`(route.cragName))
+                .jsonPath("$.sectorId").value(Matchers.`is`(route.sectorId.toString()))
+                .jsonPath("$.sectorName").value(Matchers.`is`(route.sectorName))
+    }
+
+    fun WebTestClient.BodyContentSpec.isMessageContaining(expectedPartial: String): WebTestClient.BodyContentSpec {
+        return this.jsonPath("$.message").value(Matchers.containsString(expectedPartial))
+    }
+
+    fun WebTestClient.BodyContentSpec.isProperTimestamp(): WebTestClient.BodyContentSpec {
+        return this.jsonPath("$.timestamp").isNumber
+    }
+
+    fun WebTestClient.BodyContentSpec.isProperPath(expectedPath: String): WebTestClient.BodyContentSpec {
+        return this.jsonPath("$.path").isEqualTo(expectedPath)
     }
 }
