@@ -251,7 +251,6 @@ class RoutesRestControllerTests {
         // when
         webTestClient.delete()
                 .uri("/routes/$id")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 .expectStatus().isOk
@@ -270,7 +269,6 @@ class RoutesRestControllerTests {
         // when
         webTestClient.delete()
                 .uri("/routes/$id")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 // then
@@ -288,7 +286,6 @@ class RoutesRestControllerTests {
         // when
         webTestClient.delete()
                 .uri("/routes/1")
-                .header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_UTF8_VALUE)
                 .accept(MediaType.APPLICATION_JSON_UTF8)
                 .exchange()
                 // then
@@ -298,31 +295,174 @@ class RoutesRestControllerTests {
                 .isProperTimestamp()
                 .isProperPath("/routes/1")
     }
-//
-//    @Test
-//    fun testUpdateRoute() {
-//        TODO("not implemented")
-//    }
-//
-//    @Test
-//    fun testUpdateRouteWithNonexistentId() {
-//        TODO("not implemented")
-//    }
-//
-//    @Test
-//    fun testUpdateRouteWithInvalidId() {
-//        TODO("not implemented")
-//    }
-//
-//    @Test
-//    fun testUpdateRouteWithInvalidCragId() {
-//        TODO("not implemented")
-//    }
-//
-//    @Test
-//    fun testUpdateRouteWithInvalidSectorId() {
-//        TODO("not implemented")
-//    }
+
+    @Test
+    fun testUpdateRoute() {
+        // given
+        val id = UUID.randomUUID()
+        val route = createRoute(id, "test")
+        Mockito.`when`(routesService.updateRoute(any(), any())).thenReturn(Mono.just(route))
+
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "${UUID.randomUUID()}",
+                "cragName": "Millennium",
+                "sectorId": "${UUID.randomUUID()}",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        webTestClient.put()
+                .uri("/routes/$id")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isOk
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody().isRouteContentsMatching(route)
+    }
+
+    @Test
+    fun testUpdateRouteWithNonexistentId() {
+        // given
+        val id = UUID.randomUUID()
+        Mockito.`when`(routesService.updateRoute(any(), any()))
+                .thenThrow(ResourceNotFoundException(id, Route::class.java))
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "${UUID.randomUUID()}",
+                "cragName": "Millennium",
+                "sectorId": "${UUID.randomUUID()}",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        webTestClient.put()
+                .uri("/routes/$id")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isNotFound
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isMessageContaining(id.toString())
+                .isProperPath("/routes/$id")
+                .isProperTimestamp()
+    }
+
+    @Test
+    fun testUpdateRouteWithInvalidId() {
+        // given
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "${UUID.randomUUID()}",
+                "cragName": "Millennium",
+                "sectorId": "${UUID.randomUUID()}",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        webTestClient.put()
+                .uri("/routes/1")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperPath("/routes/1")
+                .isProperTimestamp()
+    }
+
+    @Test
+    fun testUpdateRouteWithInvalidCragId() {
+        // given
+        val id = UUID.randomUUID()
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "1",
+                "cragName": "Millennium",
+                "sectorId": "${UUID.randomUUID()}",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        webTestClient.put()
+                .uri("/routes/$id")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperPath("/routes/$id")
+                .isProperTimestamp()
+    }
+
+    @Test
+    fun testUpdateRouteWithInvalidSectorId() {
+        // given
+        val id = UUID.randomUUID()
+        // when
+        val routeDtoAsJson = """
+            {
+                "name": "route",
+                "type": "Sport",
+                "grade": "4a",
+                "country": "Italy",
+                "region": "Cala Gonone",
+                "cragId": "${UUID.randomUUID()}",
+                "cragName": "Millennium",
+                "sectorId": "1",
+                "sectorName": "Millennium"
+            }
+        """.trimIndent()
+
+        webTestClient.put()
+                .uri("/routes/$id")
+                .accept(MediaType.APPLICATION_JSON_UTF8)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .body(Mono.just(routeDtoAsJson), String::class.java)
+                .exchange()
+                // then
+                .expectStatus().isBadRequest
+                .expectHeader().contentType(MediaType.APPLICATION_JSON_UTF8)
+                .expectBody()
+                .isProperPath("/routes/$id")
+                .isProperTimestamp()
+    }
 
     private fun createRoute(routeName: String): Route {
         return createRoute(UUID.randomUUID(), routeName)
