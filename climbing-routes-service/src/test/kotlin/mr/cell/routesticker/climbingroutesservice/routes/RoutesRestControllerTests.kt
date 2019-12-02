@@ -22,7 +22,7 @@ import java.util.UUID
 
 
 @RunWith(SpringRunner::class)
-@WebFluxTest
+@WebFluxTest(RoutesRestController::class)
 class RoutesRestControllerTests {
     private val log: Logger = LoggerFactory.getLogger(RoutesRestControllerTests::class.java)
 
