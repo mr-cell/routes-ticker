@@ -2,3 +2,12 @@ language: java
 
 jdk:
   - openjdk8
+
+addons:
+  sonarcloud:
+    organization: "mr-cell-github"
+    token:
+      secure: "SK5ki78SNYVu3p14PlH+/v208lxMBHoEBP8eomaS2jGtvXtfwhWqOcfx+NFIoaQieQWxBoL4QIRPBNIJiHdhASiL0BKnCl0yk6PapweI+vUQWLAUwkIdaGjcibo63b0TVWr78N3JEbGwJZbwWV02TdtVUOUyJfaCVJPUFr4ER2voPECOUqSUQInOm+ilsn2oyCTDHyKCZMxjQqI0phTz3hCJQqDIghcMGrMOrvYCMI08gkqc5jIOo48NUb5l7d1IJilq4OXN+ZDcHuZuWI21cJcPcNybPBE3i764CNvHhwCTO6T4zLpcQb51yoqA4U6OvaXBvzA6628tvBr4s/yuJAnr6bQIbN9BElne9F9egew8RJzenvr3CIiV0gvE/51PZ0CbtDgRsmA+r6Z6caQ4a3PYv22opLDZBTclQ3d/r/FFcizuLGhx0vwxKGFtLqywyNnMRJnBRxAc78/r3fum6L4uOa317NAL9Zvc1k2nbQ0pDcZKsCvkJFnEdVC6ufPxTPFuiatJBtYR78yw6eDILqsQWRc3dO6QO0qphhzUAIBgjOF0n20HbBDLwpw/Zzq/iTc+c6zi42y54MSnfROk72o7Awnz+8DRHKDTouot/MXU+ycjVJuM7csl5ZIwe6lT0vkSZWt8t8j7LQcHi972Vr2e8MCyXbhGHpXLvdmPP9U="
+
+script:
+  - ./gradlew sonarqube

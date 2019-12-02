@@ -3,6 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 plugins {
 	id("org.springframework.boot") version "2.1.9.RELEASE"
 	id("io.spring.dependency-management") version "1.0.8.RELEASE"
+	id("org.sonarqube") version "2.8"
 	kotlin("jvm") version "1.2.71"
 	kotlin("plugin.spring") version "1.2.71"
 }
@@ -53,5 +54,11 @@ tasks.withType<KotlinCompile> {
 	kotlinOptions {
 		freeCompilerArgs = listOf("-Xjsr305=strict")
 		jvmTarget = "1.8"
+	}
+}
+
+sonarqube {
+	properties {
+		property("sonar.projectKey", "mr-cell_routes-ticker")
 	}
 }
