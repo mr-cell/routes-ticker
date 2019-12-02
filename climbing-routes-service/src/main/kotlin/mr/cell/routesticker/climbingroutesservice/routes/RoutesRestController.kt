@@ -1,4 +1,4 @@
-package mr.cell.routesticker.climbingroutesservice
+package mr.cell.routesticker.climbingroutesservice.routes
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
@@ -23,7 +23,7 @@ class RoutesRestController(val routes: RoutesService) {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping
     fun createRoute(@RequestBody route: RouteDTO): Mono<RouteDTO> {
-        return routes.saveRoute(route).map { RouteDTO(it) }
+        return routes.createRoute(route).map { RouteDTO(it) }
     }
 
     @DeleteMapping("/{id}")

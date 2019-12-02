@@ -1,6 +1,7 @@
-package mr.cell.routesticker.climbingroutesservice
+package mr.cell.routesticker.climbingroutesservice.routes
 
 import com.nhaarman.mockitokotlin2.any
+import mr.cell.routesticker.climbingroutesservice.ResourceNotFoundException
 import net.minidev.json.JSONArray
 import org.hamcrest.Matchers
 import org.junit.Test
@@ -119,7 +120,7 @@ class RoutesRestControllerTests {
         val routeId = UUID.randomUUID()
         val cragId = UUID.randomUUID()
         val sectorId = UUID.randomUUID()
-        Mockito.`when`(routesService.saveRoute(any()))
+        Mockito.`when`(routesService.createRoute(any()))
                 .then { invocation ->
                     val routeDTO = invocation.getArgument<RouteDTO>(0)
                     Mono.just(Route(routeId,

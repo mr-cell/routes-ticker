@@ -1,4 +1,4 @@
-package mr.cell.routesticker.climbingroutesservice
+package mr.cell.routesticker.climbingroutesservice.routes
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties

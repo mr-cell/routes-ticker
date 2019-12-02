@@ -1,4 +1,4 @@
-package mr.cell.routesticker.climbingroutesservice
+package mr.cell.routesticker.climbingroutesservice.routes
 
 import org.springframework.data.annotation.Id
 import org.springframework.data.annotation.TypeAlias

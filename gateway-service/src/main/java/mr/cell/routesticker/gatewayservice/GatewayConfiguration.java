@@ -34,6 +34,16 @@ public class GatewayConfiguration {
                                                 .withGroupKey(createHystrixCommandGroupKey("routes-ticker"))
                                                 .andCommandKey(createHystrixCommandKey("routes")))))
                         .uri("lb://climbingroutesservice/routes"))
+                .route(p -> p
+                        .path("/crags")
+                        .filters(f -> f
+                                .hystrix(config -> config
+                                        .setName("cragsFallback")
+                                        .setFallbackUri("forward:/fallback/crags")
+                                        .setSetter(HystrixObservableCommand.Setter
+                                                .withGroupKey(createHystrixCommandGroupKey("routes-ticker"))
+                                                .andCommandKey(createHystrixCommandKey("crags")))))
+                        .uri("lb://climbingroutesservice/crags"))
                 .build();
     }
 

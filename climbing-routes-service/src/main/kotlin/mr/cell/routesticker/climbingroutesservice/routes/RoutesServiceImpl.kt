@@ -1,5 +1,6 @@
-package mr.cell.routesticker.climbingroutesservice
+package mr.cell.routesticker.climbingroutesservice.routes
 
+import mr.cell.routesticker.climbingroutesservice.ResourceNotFoundException
 import org.springframework.stereotype.Service
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
@@ -21,7 +22,7 @@ class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
         return routes.findAll()
     }
 
-    override fun saveRoute(route: RouteDTO): Mono<Route> {
+    override fun createRoute(route: RouteDTO): Mono<Route> {
         return Mono.just(route)
                 .handle { route, sink: SynchronousSink<Route> ->
                     try {
@@ -40,9 +41,11 @@ class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
                 route.grade ?: RouteGrade.UNKNOWN,
                 route.country ?: "",
                 route.region ?: "",
-                route.cragId ?: throw IllegalArgumentException(NO_CRAG_ID),
+                route.cragId
+                        ?: throw IllegalArgumentException(NO_CRAG_ID),
                 route.cragName ?: "",
-                route.sectorId ?: throw IllegalArgumentException(NO_SECTOR_ID),
+                route.sectorId
+                        ?: throw IllegalArgumentException(NO_SECTOR_ID),
                 route.sectorName ?: "")
     }
 
