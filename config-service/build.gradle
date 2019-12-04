@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.1.9.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.8.RELEASE'
-	id("org.sonarqube") version "2.8"
+	id("org.sonarqube")
 	id 'java'
 	id 'idea'
 }
@@ -32,9 +32,3 @@ dependencyManagement {
 }
 
 bootRun.systemProperties = System.properties
-
-sonarqube {
-	properties {
-		property("sonar.projectKey", "mr-cell_routes-ticker")
-	}
-}
