@@ -1,5 +1,8 @@
 # routes-ticker
 
+[![Build Status](https://travis-ci.org/mr-cell/routes-ticker.svg?branch=master)](https://travis-ci.org/mr-cell/routes-ticker)
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=mr-cell_routes-ticker&metric=alert_status)](https://sonarcloud.io/dashboard?id=mr-cell_routes-ticker)
+
 Idea: 8a.nu clone
 
 Multiple services:
