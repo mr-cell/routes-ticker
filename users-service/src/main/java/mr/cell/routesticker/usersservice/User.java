@@ -40,9 +40,9 @@ public class User {
     }
 
     public User update(final UserDTO user) {
-        final String username = Optional.ofNullable(user.getUsername()).orElse(this.username);
-        final String firstName = Optional.ofNullable(user.getFirstName()).orElse(this.firstName);
-        final String lastName = Optional.ofNullable(user.getLastName()).orElse(this.lastName);
-        return new User(this.id, username, firstName, lastName, this.isAdmin);
+        final String _username = Optional.ofNullable(user.getUsername()).orElse(this.username);
+        final String _firstName = Optional.ofNullable(user.getFirstName()).orElse(this.firstName);
+        final String _lastName = Optional.ofNullable(user.getLastName()).orElse(this.lastName);
+        return new User(this.id, _username, _firstName, _lastName, this.isAdmin);
     }
 }

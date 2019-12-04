@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class GatewayConfiguration {
 
+    private static final String HYSTRIX_COMMAND_GROUP_KEY = "routes-ticker";
+
     @Bean
     public RouteLocator gatewayRoutes(final RouteLocatorBuilder builder) {
         return builder.routes()
@@ -21,7 +23,7 @@ public class GatewayConfiguration {
                                         .setName("usersFallback")
                                         .setFallbackUri("forward:/fallback/users")
                                         .setSetter(HystrixObservableCommand.Setter
-                                                .withGroupKey(createHystrixCommandGroupKey("routes-ticker"))
+                                                .withGroupKey(createHystrixCommandGroupKey(HYSTRIX_COMMAND_GROUP_KEY))
                                                 .andCommandKey(createHystrixCommandKey("users")))))
                         .uri("lb://usersservice/users"))
                 .route(p -> p
@@ -31,7 +33,7 @@ public class GatewayConfiguration {
                                         .setName("routesFallback")
                                         .setFallbackUri("forward:/fallback/routes")
                                         .setSetter(HystrixObservableCommand.Setter
-                                                .withGroupKey(createHystrixCommandGroupKey("routes-ticker"))
+                                                .withGroupKey(createHystrixCommandGroupKey(HYSTRIX_COMMAND_GROUP_KEY))
                                                 .andCommandKey(createHystrixCommandKey("routes")))))
                         .uri("lb://climbingroutesservice/routes"))
                 .route(p -> p
@@ -41,7 +43,7 @@ public class GatewayConfiguration {
                                         .setName("cragsFallback")
                                         .setFallbackUri("forward:/fallback/crags")
                                         .setSetter(HystrixObservableCommand.Setter
-                                                .withGroupKey(createHystrixCommandGroupKey("routes-ticker"))
+                                                .withGroupKey(createHystrixCommandGroupKey(HYSTRIX_COMMAND_GROUP_KEY))
                                                 .andCommandKey(createHystrixCommandKey("crags")))))
                         .uri("lb://climbingroutesservice/crags"))
                 .build();

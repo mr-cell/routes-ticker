@@ -4,8 +4,8 @@ import java.util.UUID;
 
 public class ResourceNotFoundException extends RuntimeException {
 
-    private String resourceId;
-    private String resourceClassSimpleName;
+    private final String resourceId;
+    private final String resourceClassSimpleName;
 
     public <T> ResourceNotFoundException(final UUID uuid, final Class<T> resourceClass) {
         this(uuid.toString(), resourceClass);
