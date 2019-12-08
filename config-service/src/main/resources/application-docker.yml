@@ -1,3 +1,7 @@
+spring:
+  zipkin:
+    baseUrl: http://tracingservice:9411/
+
 eureka:
   client:
     serviceUrl:

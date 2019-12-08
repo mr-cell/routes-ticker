@@ -5,6 +5,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://mongo:27017/users
+  zipkin:
+    baseUrl: http://tracingservice:9411/
 
 eureka:
   client:

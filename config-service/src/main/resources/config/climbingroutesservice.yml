@@ -2,11 +2,11 @@ server:
   port: 8181
 
 spring:
-  application:
-    name: climbingroutesservice
   data:
     mongodb:
       uri: mongodb://localhost:27017/routes
+  zipkin:
+    baseUrl: http://localhost:9411/
 
 eureka:
   client:
