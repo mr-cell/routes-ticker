@@ -1,4 +1,4 @@
-package mr.cell.routesticker.climbingroutesservice.crags
+package mr.cell.routesticker.climbingroutesservice.sectors
 
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
