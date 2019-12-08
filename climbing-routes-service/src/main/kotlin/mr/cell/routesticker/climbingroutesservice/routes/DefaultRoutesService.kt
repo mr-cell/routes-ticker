@@ -8,7 +8,7 @@ import reactor.core.publisher.SynchronousSink
 import java.util.UUID
 
 @Service
-class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
+class DefaultRoutesService(val routes: RoutesRepository): RoutesService {
     companion object {
         const val NO_CRAG_ID = "Mandatory field 'cragId' has not been submitted"
         const val NO_SECTOR_ID = "Mandatory field 'sectorId' has not been submitted"
@@ -41,11 +41,9 @@ class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
                 route.grade ?: RouteGrade.UNKNOWN,
                 route.country ?: "",
                 route.region ?: "",
-                route.cragId
-                        ?: throw IllegalArgumentException(NO_CRAG_ID),
+                route.cragId ?: throw IllegalArgumentException(NO_CRAG_ID),
                 route.cragName ?: "",
-                route.sectorId
-                        ?: throw IllegalArgumentException(NO_SECTOR_ID),
+                route.sectorId ?: throw IllegalArgumentException(NO_SECTOR_ID),
                 route.sectorName ?: "")
     }
 
@@ -60,7 +58,7 @@ class RoutesServiceImpl(val routes: RoutesRepository): RoutesService {
                 .switchIfEmpty(Mono.error(ResourceNotFoundException(id, Route::class.java)))
                 .zipWith(Mono.just(route))
                 .map { tuple -> merge(tuple.t1, tuple.t2) }
-                .doOnNext { route -> routes.save(route) }
+                .doOnNext { routes.save(it) }
     }
 
     private fun merge(routeToBeUpdated: Route, route: RouteDTO): Route {
