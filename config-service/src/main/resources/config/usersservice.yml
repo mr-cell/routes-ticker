@@ -5,6 +5,8 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/users
+  zipkin:
+    baseUrl: http://localhost:9411/
 
 eureka:
   client:
