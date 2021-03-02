@@ -3,11 +3,11 @@ language: java
 jdk:
   - openjdk8
 
-addons:
-  sonarcloud:
-    organization: "mr-cell-github"
-    token:
-      secure: "qjnMvtFLuy5KRROA+0ZK3TpbK/P2UoUOoeYA5cX5DMPqWS9EEF2TzzzCKH5hdWJhBTrRg5XrBVSHR8nypwzRq/b2dkqdVwfrjxYm7LlZ4eQ1txY3GSSgOZ/GDNMrVL6+xJL+vGlhl0+rTBtQNCUSwGkja60YxKOM3gAq1Hs/L2hbHlOF622u60X5QTvm3Dy1NbyurouzLc/DrIptEqe5XYxCLPin6cEEtApSS/ve+AtV04YCV3qs+0TBIQjdLaaQF9U4lonz+O5tC0EvKy73j+Fhvgyi5UDlbFGTwMS89LLQ5hezuQSv9Kt+Je3qCpR9XS5z3Ffcl9MH6T0j/Rvs/NjTvNmx8UylysMrAuVNUZRYwyTGINcyeJlk0uTsdWrqy4VXCBen1J6Vqrm0Oe/watArW/GC2dlwJ8sU5SYgYX8tsfgV4H6DJbuGPzWKJj+KR3zJ2dZZJGpD38OFt9GXMl2wwBnnotVOV0lQTHPYkcG47bNHbkC769dRooTgvM3JMibjdqglJdlBto3qWs877QZY+0s5Gz1l2MO81GzsUSvx41xxZ/ZiRqjqsxepOoSvQyLJ1OnYvhTJm7P9wRKk4alN35kqjdR2hBnedVkAN2OHMQJB4zWFy5+F8KUOsikCunzfs8K2dvY0aHa4aY+pNKupHrHGWfNlnmbervijMd8="
+    #addons:
+    #sonarcloud:
+    #organization: "mr-cell-github"
+    #token:
+    #  secure: "qjnMvtFLuy5KRROA+0ZK3TpbK/P2UoUOoeYA5cX5DMPqWS9EEF2TzzzCKH5hdWJhBTrRg5XrBVSHR8nypwzRq/b2dkqdVwfrjxYm7LlZ4eQ1txY3GSSgOZ/GDNMrVL6+xJL+vGlhl0+rTBtQNCUSwGkja60YxKOM3gAq1Hs/L2hbHlOF622u60X5QTvm3Dy1NbyurouzLc/DrIptEqe5XYxCLPin6cEEtApSS/ve+AtV04YCV3qs+0TBIQjdLaaQF9U4lonz+O5tC0EvKy73j+Fhvgyi5UDlbFGTwMS89LLQ5hezuQSv9Kt+Je3qCpR9XS5z3Ffcl9MH6T0j/Rvs/NjTvNmx8UylysMrAuVNUZRYwyTGINcyeJlk0uTsdWrqy4VXCBen1J6Vqrm0Oe/watArW/GC2dlwJ8sU5SYgYX8tsfgV4H6DJbuGPzWKJj+KR3zJ2dZZJGpD38OFt9GXMl2wwBnnotVOV0lQTHPYkcG47bNHbkC769dRooTgvM3JMibjdqglJdlBto3qWs877QZY+0s5Gz1l2MO81GzsUSvx41xxZ/ZiRqjqsxepOoSvQyLJ1OnYvhTJm7P9wRKk4alN35kqjdR2hBnedVkAN2OHMQJB4zWFy5+F8KUOsikCunzfs8K2dvY0aHa4aY+pNKupHrHGWfNlnmbervijMd8="
 
-script:
-  - ./gradlew sonarqube
+    #script:
+    #- ./gradlew sonarqube
